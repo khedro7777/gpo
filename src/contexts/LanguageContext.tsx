@@ -11,10 +11,10 @@ interface LanguageContextType {
 
 const LanguageContext = createContext<LanguageContextType | undefined>(undefined);
 
-// Translation keys
+// Comprehensive translation keys
 const translations = {
   ar: {
-    // Header
+    // Header & Navigation
     'header.about': 'من نحن',
     'header.howItWorks': 'كيف يعمل',
     'header.support': 'الدعم',
@@ -22,13 +22,21 @@ const translations = {
     'header.register': 'إنشاء حساب',
     'header.language': 'العربية',
     'header.currency': 'ر.س',
+    'nav.home': 'الرئيسية',
+    'nav.groups': 'المجموعات',
+    'nav.profile': 'ملفي الشخصي',
+    'nav.wallet': 'المحفظة',
+    'nav.dashboard': 'لوحة التحكم',
+    'nav.logout': 'تسجيل خروج',
     
     // Home Page
     'home.title': 'مستقبل التعاون الذكي',
     'home.subtitle': 'منصة عالمية متطورة تجمع 12 بوابة تعاونية ذكية للشراء الجماعي، التسويق المشترك، تأسيس الشركات، إدارة الاستثمارات، والتحكيم الرقمي مع دعم الذكاء الاصطناعي',
     'home.startJourney': 'ابدأ رحلتك الآن',
     'home.interactiveTour': 'جولة تفاعلية',
-    'home.searchPlaceholder': 'ابحث في البوابات والمجموعات النشطة...',
+    'home.searchTitle': 'البحث الذكي المتقدم',
+    'home.searchSubtitle': 'ابحث عن المجموعات والفرص المناسبة لك باستخدام فلاتر متقدمة',
+    'home.searchPlaceholder': 'ابحث عن المجموعات، المنتجات، الخدمات...',
     'home.advancedFilter': 'فلترة متقدمة',
     'home.search': 'بحث',
     
@@ -37,14 +45,6 @@ const translations = {
     'stats.activeMembers': 'عضو نشط',
     'stats.successRate': 'معدل النجاح',
     'stats.countries': 'دولة',
-    
-    // Quick Filters
-    'filters.highBudget': 'ميزانية عالية',
-    'filters.newGroups': 'مجموعات جديدة',
-    'filters.verifiedOnly': 'موثق فقط',
-    'filters.premiumMembers': 'أعضاء مميزون',
-    'filters.mcpCertified': 'معتمد MCP',
-    'filters.largeGroups': 'مجموعات كبيرة',
     
     // Portals
     'portals.title': 'البوابات التعاونية الذكية',
@@ -61,96 +61,163 @@ const translations = {
     'portals.arbitrationDocumentation': 'التحكيم والتوثيق',
     'portals.arbitrationRequests': 'طلبات التحكيم',
     'portals.smartNegotiation': 'حلول التفاوض الذكية',
-    
-    // Portal Descriptions
-    'portals.cooperativePurchasing.desc': 'تجميع طلبات الشراء للحصول على أفضل الأسعار والخصومات',
-    'portals.cooperativeMarketing.desc': 'حملات تسويقية مشتركة لتقليل التكاليف وزيادة الوصول',
-    'portals.companyFormation.desc': 'خدمات تأسيس شركات احترافية في أفضل الولايات القضائية',
-    'portals.investmentGroups.desc': 'تجميع المستثمرين للفرص الاستثمارية المتميزة',
-    'portals.suppliers.desc': 'شبكة موردين موثوقة مع تقييمات ومقارنات شاملة',
-    'portals.freelancers.desc': 'منصة متقدمة للمستقلين مع اختبارات مهارات وتقييمات',
-    'portals.freelancerGroups.desc': 'تجميع المستقلين لمشاريع كبيرة ومعقدة',
-    'portals.serviceProviders.desc': 'شبكة شاملة من مقدمي الخدمات المتخصصة',
-    'portals.productListings.desc': 'عرض وتسويق المنتجات للمجموعات المختلفة',
-    'portals.arbitrationDocumentation.desc': 'نظام ORDA لحل النزاعات والتحكيم الرقمي المتقدم',
-    'portals.arbitrationRequests.desc': 'تقديم طلبات التحكيم وحل النزاعات',
-    'portals.smartNegotiation.desc': 'أدوات ذكية لتسهيل التفاوض والتوصل لاتفاقات',
+    'portals.enterPortal': 'دخول البوابة',
+    'portals.activeGroups': 'مجموعة نشطة',
+    'portals.kycRequired': 'KYC مطلوب',
+    'portals.pointsRequired': 'نقاط مطلوبة',
+    'portals.mcpTest': 'اختبار MCP',
     
     // AI Agents
     'agents.title': '12 مساعد ذكي متخصص',
     'agents.subtitle': 'فريق من المساعدين الأذكياء يعمل على مدار الساعة لتحليل البيانات، تقديم التوصيات، وتحسين تجربتك',
+    'agents.interact': 'تفاعل مع المساعدين الأذكياء',
     'agents.sami': 'سامي',
-    'agents.nour': 'نور',
-    'agents.lina': 'لينا',
-    'agents.ziad': 'زياد',
-    'agents.hani': 'هاني',
-    'agents.dana': 'دانا',
-    'agents.badr': 'بدر',
-    'agents.tareq': 'طارق',
-    'agents.amal': 'أمل',
-    'agents.firas': 'فراس',
-    'agents.mariam': 'مريم',
-    'agents.rania': 'رانيا',
-    
-    // Agent Roles
     'agents.sami.role': 'محلل الطلب',
-    'agents.nour.role': 'باحث السوق',
-    'agents.lina.role': 'مساعد قانوني',
-    'agents.ziad.role': 'مشرف التحكيم',
-    'agents.hani.role': 'مدرب التفاوض',
-    'agents.dana.role': 'مقيم المستقلين',
-    'agents.badr.role': 'باحث الموردين',
-    'agents.tareq.role': 'مقيم MCP',
-    'agents.amal.role': 'متتبع السمعة',
-    'agents.firas.role': 'محسن التصويت',
-    'agents.mariam.role': 'مترجم ذكي',
-    'agents.rania.role': 'حارس الأمان',
-    
-    // Agent Descriptions
     'agents.sami.desc': 'يحلل احتياجات المجموعات ويقترح المهارات المطلوبة',
+    'agents.nour': 'نور',
+    'agents.nour.role': 'باحث السوق',
     'agents.nour.desc': 'يبحث في اتجاهات السوق ويحدد الفرص الاستثمارية',
-    'agents.lina.desc': 'يراجع العقود ويقدم المشورة القانونية',
-    'agents.ziad.desc': 'يشرف على عمليات التحكيم وحل النزاعات',
-    'agents.hani.desc': 'يقدم استراتيجيات التفاوض والصفقات',
-    'agents.dana.desc': 'يقيم أداء المستقلين ويكشف السلوك المشبوه',
-    'agents.badr.desc': 'يجد أفضل الموردين ويرسل الدعوات',
-    'agents.tareq.desc': 'يقيم اختبارات المهارات ويقدم التلميحات',
-    'agents.amal.desc': 'يتتبع سمعة المستخدمين ويحسب التقييمات',
-    'agents.firas.desc': 'يحلل أنماط التصويت ويكشف التحيز',
-    'agents.mariam.desc': 'يترجم المحتوى ويكيف الواجهات',
-    'agents.rania.desc': 'يراقب الأمان ويكشف التهديدات',
+    
+    // Groups
+    'groups.title': 'المجموعات النشطة',
+    'groups.subtitle': 'انضم إلى المجموعات المفتوحة أو قدم عروضك كمورد أو مستقل',
+    'groups.members': 'الأعضاء',
+    'groups.budget': 'الميزانية',
+    'groups.stage': 'المرحلة',
+    'groups.join': 'انضمام',
+    'groups.submitOffer': 'تقديم عرض',
+    'groups.seekingMembers': 'بحث عن أعضاء',
+    'groups.waitingSuppliers': 'في انتظار الموردين',
+    'groups.active': 'نشطة',
+    'groups.completed': 'مكتملة',
+    
+    // Actions
+    'actions.join': 'انضمام',
+    'actions.leave': 'مغادرة',
+    'actions.create': 'إنشاء',
+    'actions.edit': 'تعديل',
+    'actions.delete': 'حذف',
+    'actions.save': 'حفظ',
+    'actions.cancel': 'إلغاء',
+    'actions.submit': 'إرسال',
+    'actions.approve': 'موافقة',
+    'actions.reject': 'رفض',
+    'actions.negotiate': 'تفاوض',
+    'actions.vote': 'تصويت',
+    'actions.upload': 'رفع',
+    'actions.download': 'تحميل',
+    'actions.share': 'مشاركة',
+    'actions.copy': 'نسخ',
+    'actions.print': 'طباعة',
+    
+    // Forms
+    'forms.name': 'الاسم',
+    'forms.email': 'البريد الإلكتروني',
+    'forms.password': 'كلمة المرور',
+    'forms.confirmPassword': 'تأكيد كلمة المرور',
+    'forms.country': 'الدولة',
+    'forms.selectCountry': 'اختر الدولة',
+    'forms.portal': 'البوابة',
+    'forms.selectPortal': 'اختر البوابة',
+    'forms.groupType': 'نوع المجموعة',
+    'forms.selectType': 'اختر النوع',
+    'forms.budget': 'الميزانية',
+    'forms.selectBudget': 'اختر الميزانية',
+    'forms.memberCount': 'عدد الأعضاء',
+    'forms.selectCount': 'اختر العدد',
+    'forms.sortBy': 'ترتيب حسب',
+    'forms.newest': 'الأحدث',
+    'forms.oldest': 'الأقدم',
+    'forms.mostMembers': 'الأكثر أعضاء',
+    'forms.highestBudget': 'أعلى ميزانية',
+    'forms.endingSoon': 'ينتهي قريباً',
+    
+    // Filters
+    'filters.activeFilters': 'الفلاتر النشطة:',
+    'filters.clearAll': 'مسح الكل',
+    'filters.country': 'الدولة',
+    'filters.portal': 'البوابة',
+    'filters.groupType': 'نوع المجموعة',
+    'filters.budget': 'الميزانية',
+    'filters.memberCount': 'عدد الأعضاء',
+    'filters.sort': 'ترتيب',
+    
+    // Messages
+    'messages.success': 'تم بنجاح',
+    'messages.error': 'حدث خطأ',
+    'messages.loading': 'جاري التحميل...',
+    'messages.noData': 'لا توجد بيانات',
+    'messages.confirmDelete': 'هل أنت متأكد من الحذف؟',
+    'messages.operationSuccess': 'تمت العملية بنجاح',
+    'messages.operationFailed': 'فشلت العملية',
+    
+    // Status
+    'status.pending': 'قيد المراجعة',
+    'status.approved': 'موافق عليه',
+    'status.rejected': 'مرفوض',
+    'status.active': 'نشط',
+    'status.inactive': 'غير نشط',
+    'status.completed': 'مكتمل',
+    'status.draft': 'مسودة',
+    'status.published': 'منشور',
+    
+    // Time
+    'time.now': 'الآن',
+    'time.today': 'اليوم',
+    'time.yesterday': 'أمس',
+    'time.week': 'أسبوع',
+    'time.month': 'شهر',
+    'time.year': 'سنة',
+    'time.ago': 'منذ',
     
     // Common
-    'common.activeGroups': 'مجموعة نشطة',
-    'common.enterPortal': 'دخول البوابة',
-    'common.kycRequired': 'KYC مطلوب',
-    'common.pointsRequired': 'نقاط مطلوبة',
-    'common.mcpTest': 'اختبار MCP',
-    'common.join': 'انضمام',
-    'common.submitOffer': 'تقديم عرض',
-    'common.members': 'الأعضاء',
-    'common.budget': 'الميزانية',
-    'common.phase': 'المرحلة',
-    'common.lookingForMembers': 'بحث عن أعضاء',
-    'common.waitingForSuppliers': 'في انتظار الموردين',
+    'common.yes': 'نعم',
+    'common.no': 'لا',
+    'common.ok': 'موافق',
+    'common.close': 'إغلاق',
+    'common.back': 'رجوع',
+    'common.next': 'التالي',
+    'common.previous': 'السابق',
+    'common.finish': 'إنهاء',
+    'common.continue': 'متابعة',
+    'common.skip': 'تخطي',
+    'common.required': 'مطلوب',
+    'common.optional': 'اختياري',
+    'common.all': 'الكل',
+    'common.none': 'لا شيء',
+    'common.other': 'أخرى',
+    'common.more': 'المزيد',
+    'common.less': 'أقل',
+    'common.show': 'عرض',
+    'common.hide': 'إخفاء',
+    'common.expand': 'توسيع',
+    'common.collapse': 'طي'
   },
   en: {
-    // Header
+    // Header & Navigation
     'header.about': 'About Us',
     'header.howItWorks': 'How It Works',
     'header.support': 'Support',
     'header.login': 'Login',
-    'header.register': 'Sign Up',
+    'header.register': 'Register',
     'header.language': 'English',
     'header.currency': 'USD',
+    'nav.home': 'Home',
+    'nav.groups': 'Groups',
+    'nav.profile': 'Profile',
+    'nav.wallet': 'Wallet',
+    'nav.dashboard': 'Dashboard',
+    'nav.logout': 'Logout',
     
     // Home Page
     'home.title': 'Future of Smart Cooperation',
-    'home.subtitle': 'Advanced global platform combining 12 smart cooperative gateways for group purchasing, joint marketing, company formation, investment management, and digital arbitration with AI support',
-    'home.startJourney': 'Start Your Journey',
+    'home.subtitle': 'Advanced global platform bringing together 12 smart cooperative portals for group purchasing, joint marketing, company formation, investment management, and digital arbitration with AI support',
+    'home.startJourney': 'Start Your Journey Now',
     'home.interactiveTour': 'Interactive Tour',
-    'home.searchPlaceholder': 'Search in active portals and groups...',
-    'home.advancedFilter': 'Advanced Filter',
+    'home.searchTitle': 'Advanced Smart Search',
+    'home.searchSubtitle': 'Find the right groups and opportunities using advanced filters',
+    'home.searchPlaceholder': 'Search for groups, products, services...',
+    'home.advancedFilter': 'Advanced Filters',
     'home.search': 'Search',
     
     // Stats
@@ -158,14 +225,6 @@ const translations = {
     'stats.activeMembers': 'Active Members',
     'stats.successRate': 'Success Rate',
     'stats.countries': 'Countries',
-    
-    // Quick Filters
-    'filters.highBudget': 'High Budget',
-    'filters.newGroups': 'New Groups',
-    'filters.verifiedOnly': 'Verified Only',
-    'filters.premiumMembers': 'Premium Members',
-    'filters.mcpCertified': 'MCP Certified',
-    'filters.largeGroups': 'Large Groups',
     
     // Portals
     'portals.title': 'Smart Cooperative Portals',
@@ -182,109 +241,156 @@ const translations = {
     'portals.arbitrationDocumentation': 'Arbitration & Documentation',
     'portals.arbitrationRequests': 'Arbitration Requests',
     'portals.smartNegotiation': 'Smart Negotiation Solutions',
-    
-    // Portal Descriptions
-    'portals.cooperativePurchasing.desc': 'Aggregate purchase orders to get the best prices and discounts',
-    'portals.cooperativeMarketing.desc': 'Joint marketing campaigns to reduce costs and increase reach',
-    'portals.companyFormation.desc': 'Professional company formation services in the best jurisdictions',
-    'portals.investmentGroups.desc': 'Pool investors for outstanding investment opportunities',
-    'portals.suppliers.desc': 'Trusted supplier network with comprehensive ratings and comparisons',
-    'portals.freelancers.desc': 'Advanced freelancer platform with skill tests and evaluations',
-    'portals.freelancerGroups.desc': 'Pool freelancers for large and complex projects',
-    'portals.serviceProviders.desc': 'Comprehensive network of specialized service providers',
-    'portals.productListings.desc': 'Display and market products to different groups',
-    'portals.arbitrationDocumentation.desc': 'ORDA system for dispute resolution and advanced digital arbitration',
-    'portals.arbitrationRequests.desc': 'Submit arbitration requests and resolve disputes',
-    'portals.smartNegotiation.desc': 'Smart tools to facilitate negotiation and reach agreements',
+    'portals.enterPortal': 'Enter Portal',
+    'portals.activeGroups': 'Active Groups',
+    'portals.kycRequired': 'KYC Required',
+    'portals.pointsRequired': 'Points Required',
+    'portals.mcpTest': 'MCP Test',
     
     // AI Agents
-    'agents.title': '12 Specialized AI Assistants',
+    'agents.title': '12 Specialized Smart Assistants',
     'agents.subtitle': 'A team of smart assistants working around the clock to analyze data, provide recommendations, and enhance your experience',
+    'agents.interact': 'Interact with Smart Assistants',
     'agents.sami': 'Sami',
-    'agents.nour': 'Nour',
-    'agents.lina': 'Lina',
-    'agents.ziad': 'Ziad',
-    'agents.hani': 'Hani',
-    'agents.dana': 'Dana',
-    'agents.badr': 'Badr',
-    'agents.tareq': 'Tareq',
-    'agents.amal': 'Amal',
-    'agents.firas': 'Firas',
-    'agents.mariam': 'Mariam',
-    'agents.rania': 'Rania',
-    
-    // Agent Roles
     'agents.sami.role': 'Demand Analyst',
-    'agents.nour.role': 'Market Researcher',
-    'agents.lina.role': 'Legal Assistant',
-    'agents.ziad.role': 'Arbitration Supervisor',
-    'agents.hani.role': 'Negotiation Trainer',
-    'agents.dana.role': 'Freelancer Evaluator',
-    'agents.badr.role': 'Supplier Researcher',
-    'agents.tareq.role': 'MCP Evaluator',
-    'agents.amal.role': 'Reputation Tracker',
-    'agents.firas.role': 'Voting Optimizer',
-    'agents.mariam.role': 'Smart Translator',
-    'agents.rania.role': 'Security Guardian',
-    
-    // Agent Descriptions
     'agents.sami.desc': 'Analyzes group needs and suggests required skills',
+    'agents.nour': 'Nour',
+    'agents.nour.role': 'Market Researcher',
     'agents.nour.desc': 'Researches market trends and identifies investment opportunities',
-    'agents.lina.desc': 'Reviews contracts and provides legal advice',
-    'agents.ziad.desc': 'Supervises arbitration processes and dispute resolution',
-    'agents.hani.desc': 'Provides negotiation strategies and deal-making',
-    'agents.dana.desc': 'Evaluates freelancer performance and detects suspicious behavior',
-    'agents.badr.desc': 'Finds the best suppliers and sends invitations',
-    'agents.tareq.desc': 'Evaluates skill tests and provides hints',
-    'agents.amal.desc': 'Tracks user reputation and calculates ratings',
-    'agents.firas.desc': 'Analyzes voting patterns and detects bias',
-    'agents.mariam.desc': 'Translates content and adapts interfaces',
-    'agents.rania.desc': 'Monitors security and detects threats',
+    
+    // Groups
+    'groups.title': 'Active Groups',
+    'groups.subtitle': 'Join open groups or submit your offers as a supplier or freelancer',
+    'groups.members': 'Members',
+    'groups.budget': 'Budget',
+    'groups.stage': 'Stage',
+    'groups.join': 'Join',
+    'groups.submitOffer': 'Submit Offer',
+    'groups.seekingMembers': 'Seeking Members',
+    'groups.waitingSuppliers': 'Waiting for Suppliers',
+    'groups.active': 'Active',
+    'groups.completed': 'Completed',
+    
+    // Actions
+    'actions.join': 'Join',
+    'actions.leave': 'Leave',
+    'actions.create': 'Create',
+    'actions.edit': 'Edit',
+    'actions.delete': 'Delete',
+    'actions.save': 'Save',
+    'actions.cancel': 'Cancel',
+    'actions.submit': 'Submit',
+    'actions.approve': 'Approve',
+    'actions.reject': 'Reject',
+    'actions.negotiate': 'Negotiate',
+    'actions.vote': 'Vote',
+    'actions.upload': 'Upload',
+    'actions.download': 'Download',
+    'actions.share': 'Share',
+    'actions.copy': 'Copy',
+    'actions.print': 'Print',
+    
+    // Forms
+    'forms.name': 'Name',
+    'forms.email': 'Email',
+    'forms.password': 'Password',
+    'forms.confirmPassword': 'Confirm Password',
+    'forms.country': 'Country',
+    'forms.selectCountry': 'Select Country',
+    'forms.portal': 'Portal',
+    'forms.selectPortal': 'Select Portal',
+    'forms.groupType': 'Group Type',
+    'forms.selectType': 'Select Type',
+    'forms.budget': 'Budget',
+    'forms.selectBudget': 'Select Budget',
+    'forms.memberCount': 'Member Count',
+    'forms.selectCount': 'Select Count',
+    'forms.sortBy': 'Sort By',
+    'forms.newest': 'Newest',
+    'forms.oldest': 'Oldest',
+    'forms.mostMembers': 'Most Members',
+    'forms.highestBudget': 'Highest Budget',
+    'forms.endingSoon': 'Ending Soon',
+    
+    // Filters
+    'filters.activeFilters': 'Active Filters:',
+    'filters.clearAll': 'Clear All',
+    'filters.country': 'Country',
+    'filters.portal': 'Portal',
+    'filters.groupType': 'Group Type',
+    'filters.budget': 'Budget',
+    'filters.memberCount': 'Member Count',
+    'filters.sort': 'Sort',
+    
+    // Messages
+    'messages.success': 'Success',
+    'messages.error': 'Error occurred',
+    'messages.loading': 'Loading...',
+    'messages.noData': 'No data available',
+    'messages.confirmDelete': 'Are you sure you want to delete?',
+    'messages.operationSuccess': 'Operation completed successfully',
+    'messages.operationFailed': 'Operation failed',
+    
+    // Status
+    'status.pending': 'Pending Review',
+    'status.approved': 'Approved',
+    'status.rejected': 'Rejected',
+    'status.active': 'Active',
+    'status.inactive': 'Inactive',
+    'status.completed': 'Completed',
+    'status.draft': 'Draft',
+    'status.published': 'Published',
+    
+    // Time
+    'time.now': 'Now',
+    'time.today': 'Today',
+    'time.yesterday': 'Yesterday',
+    'time.week': 'Week',
+    'time.month': 'Month',
+    'time.year': 'Year',
+    'time.ago': 'ago',
     
     // Common
-    'common.activeGroups': 'Active Groups',
-    'common.enterPortal': 'Enter Portal',
-    'common.kycRequired': 'KYC Required',
-    'common.pointsRequired': 'Points Required',
-    'common.mcpTest': 'MCP Test',
-    'common.join': 'Join',
-    'common.submitOffer': 'Submit Offer',
-    'common.members': 'Members',
-    'common.budget': 'Budget',
-    'common.phase': 'Phase',
-    'common.lookingForMembers': 'Looking for Members',
-    'common.waitingForSuppliers': 'Waiting for Suppliers',
+    'common.yes': 'Yes',
+    'common.no': 'No',
+    'common.ok': 'OK',
+    'common.close': 'Close',
+    'common.back': 'Back',
+    'common.next': 'Next',
+    'common.previous': 'Previous',
+    'common.finish': 'Finish',
+    'common.continue': 'Continue',
+    'common.skip': 'Skip',
+    'common.required': 'Required',
+    'common.optional': 'Optional',
+    'common.all': 'All',
+    'common.none': 'None',
+    'common.other': 'Other',
+    'common.more': 'More',
+    'common.less': 'Less',
+    'common.show': 'Show',
+    'common.hide': 'Hide',
+    'common.expand': 'Expand',
+    'common.collapse': 'Collapse'
   }
 };
 
 export const LanguageProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
   const [language, setLanguage] = useState<Language>('ar');
 
-  useEffect(() => {
-    // Load saved language from localStorage
-    const savedLanguage = localStorage.getItem('language') as Language;
-    if (savedLanguage && (savedLanguage === 'ar' || savedLanguage === 'en')) {
-      setLanguage(savedLanguage);
-    }
-  }, []);
-
-  const handleSetLanguage = (lang: Language) => {
-    setLanguage(lang);
-    localStorage.setItem('language', lang);
-    
-    // Update document direction
-    document.documentElement.dir = lang === 'ar' ? 'rtl' : 'ltr';
-    document.documentElement.lang = lang;
-  };
-
   const t = (key: string): string => {
-    return translations[language][key] || key;
+    return translations[language][key as keyof typeof translations[typeof language]] || key;
   };
 
   const isRTL = language === 'ar';
 
+  useEffect(() => {
+    document.documentElement.dir = isRTL ? 'rtl' : 'ltr';
+    document.documentElement.lang = language;
+  }, [language, isRTL]);
+
   return (
-    <LanguageContext.Provider value={{ language, setLanguage: handleSetLanguage, t, isRTL }}>
+    <LanguageContext.Provider value={{ language, setLanguage, t, isRTL }}>
       {children}
     </LanguageContext.Provider>
   );
