@@ -1,384 +1,348 @@
 import React, { useState } from 'react';
-import { Input } from '@/components/ui/input';
-import { Button } from '@/components/ui/button';
 import { Card, CardContent } from '@/components/ui/card';
+import { Button } from '@/components/ui/button';
+import { Input } from '@/components/ui/input';
 import { Badge } from '@/components/ui/badge';
 import { 
-  Search, Filter, SlidersHorizontal, X, Star, 
-  Clock, DollarSign, Users, MapPin, Building,
-  Zap, Shield, Award
+  Select, 
+  SelectContent, 
+  SelectItem, 
+  SelectTrigger, 
+  SelectValue 
+} from '@/components/ui/select';
+import { 
+  Search, 
+  Filter, 
+  X, 
+  ChevronDown,
+  MapPin,
+  Users,
+  DollarSign,
+  Calendar
 } from 'lucide-react';
-import SmartDropdowns from './SmartDropdowns';
+import { useLanguage } from '@/contexts/LanguageContext';
+import { countries } from '@/data/countries';
 
-interface AdvancedSearchProps {
-  onSearch: (filters: SearchFilters) => void;
-}
-
-interface SearchFilters {
-  query: string;
-  country: string;
-  portal: string;
-  groupType: string;
-  service: string;
-  priceRange: [number, number];
-  memberRange: [number, number];
-  requiresKYC: boolean;
-  requiresPoints: boolean;
-  requiresMCP: boolean;
-  sortBy: string;
-}
-
-const AdvancedSearch: React.FC<AdvancedSearchProps> = ({ onSearch }) => {
+export const AdvancedSearch = () => {
+  const { t, language } = useLanguage();
   const [searchQuery, setSearchQuery] = useState('');
-  const [showAdvanced, setShowAdvanced] = useState(false);
-  const [filters, setFilters] = useState<SearchFilters>({
-    query: '',
+  const [showAdvancedFilters, setShowAdvancedFilters] = useState(false);
+  const [activeFilters, setActiveFilters] = useState<string[]>([]);
+  
+  const [filters, setFilters] = useState({
     country: '',
     portal: '',
     groupType: '',
-    service: '',
-    priceRange: [0, 1000000],
-    memberRange: [1, 100],
-    requiresKYC: false,
-    requiresPoints: false,
-    requiresMCP: false,
-    sortBy: 'relevance'
+    budget: '',
+    memberCount: '',
+    sortBy: 'newest'
   });
 
-  const [activeFilters, setActiveFilters] = useState<string[]>([]);
+  const portals = [
+    { value: 'cooperative-purchasing', label: t('portals.cooperativePurchasing') },
+    { value: 'cooperative-marketing', label: t('portals.cooperativeMarketing') },
+    { value: 'company-formation', label: t('portals.companyFormation') },
+    { value: 'investment-groups', label: t('portals.investmentGroups') },
+    { value: 'suppliers', label: t('portals.suppliers') },
+    { value: 'freelancers', label: t('portals.freelancers') },
+    { value: 'freelancer-groups', label: t('portals.freelancerGroups') },
+    { value: 'service-providers', label: t('portals.serviceProviders') },
+    { value: 'product-listings', label: t('portals.productListings') },
+    { value: 'arbitration-documentation', label: t('portals.arbitrationDocumentation') },
+    { value: 'arbitration-requests', label: t('portals.arbitrationRequests') },
+    { value: 'smart-negotiation', label: t('portals.smartNegotiation') }
+  ];
 
-  const handleSearch = () => {
-    const searchFilters = { ...filters, query: searchQuery };
-    onSearch(searchFilters);
-  };
+  const groupTypes = [
+    { value: 'open', label: language === 'ar' ? 'مفتوحة للجميع' : 'Open to All' },
+    { value: 'invite-only', label: language === 'ar' ? 'بدعوة فقط' : 'Invite Only' },
+    { value: 'verified-only', label: language === 'ar' ? 'للمتحققين فقط' : 'Verified Only' },
+    { value: 'premium', label: language === 'ar' ? 'مميزة' : 'Premium' }
+  ];
 
-  const handleFilterChange = (key: keyof SearchFilters, value: any) => {
+  const budgetRanges = [
+    { value: '0-1000', label: language === 'ar' ? 'أقل من 1,000' : 'Under $1,000' },
+    { value: '1000-5000', label: language === 'ar' ? '1,000 - 5,000' : '$1,000 - $5,000' },
+    { value: '5000-10000', label: language === 'ar' ? '5,000 - 10,000' : '$5,000 - $10,000' },
+    { value: '10000-50000', label: language === 'ar' ? '10,000 - 50,000' : '$10,000 - $50,000' },
+    { value: '50000+', label: language === 'ar' ? 'أكثر من 50,000' : 'Over $50,000' }
+  ];
+
+  const memberCounts = [
+    { value: '1-10', label: language === 'ar' ? '1-10 أعضاء' : '1-10 Members' },
+    { value: '11-25', label: language === 'ar' ? '11-25 عضو' : '11-25 Members' },
+    { value: '26-50', label: language === 'ar' ? '26-50 عضو' : '26-50 Members' },
+    { value: '51-100', label: language === 'ar' ? '51-100 عضو' : '51-100 Members' },
+    { value: '100+', label: language === 'ar' ? 'أكثر من 100' : '100+ Members' }
+  ];
+
+  const sortOptions = [
+    { value: 'newest', label: language === 'ar' ? 'الأحدث' : 'Newest' },
+    { value: 'oldest', label: language === 'ar' ? 'الأقدم' : 'Oldest' },
+    { value: 'most-members', label: language === 'ar' ? 'الأكثر أعضاء' : 'Most Members' },
+    { value: 'highest-budget', label: language === 'ar' ? 'أعلى ميزانية' : 'Highest Budget' },
+    { value: 'ending-soon', label: language === 'ar' ? 'ينتهي قريباً' : 'Ending Soon' }
+  ];
+
+  const handleFilterChange = (key: string, value: string) => {
     setFilters(prev => ({ ...prev, [key]: value }));
-  };
-
-  const addActiveFilter = (filterName: string) => {
-    if (!activeFilters.includes(filterName)) {
-      setActiveFilters(prev => [...prev, filterName]);
+    
+    if (value && !activeFilters.includes(key)) {
+      setActiveFilters(prev => [...prev, key]);
+    } else if (!value && activeFilters.includes(key)) {
+      setActiveFilters(prev => prev.filter(f => f !== key));
     }
   };
 
-  const removeActiveFilter = (filterName: string) => {
-    setActiveFilters(prev => prev.filter(f => f !== filterName));
-    // Reset the filter value
-    if (filterName === 'requiresKYC') handleFilterChange('requiresKYC', false);
-    if (filterName === 'requiresPoints') handleFilterChange('requiresPoints', false);
-    if (filterName === 'requiresMCP') handleFilterChange('requiresMCP', false);
+  const removeFilter = (key: string) => {
+    setFilters(prev => ({ ...prev, [key]: '' }));
+    setActiveFilters(prev => prev.filter(f => f !== key));
   };
 
   const clearAllFilters = () => {
     setFilters({
-      query: '',
       country: '',
       portal: '',
       groupType: '',
-      service: '',
-      priceRange: [0, 1000000],
-      memberRange: [1, 100],
-      requiresKYC: false,
-      requiresPoints: false,
-      requiresMCP: false,
-      sortBy: 'relevance'
+      budget: '',
+      memberCount: '',
+      sortBy: 'newest'
     });
     setActiveFilters([]);
-    setSearchQuery('');
   };
 
-  const quickFilters = [
-    { 
-      id: 'high-budget', 
-      label: 'ميزانية عالية', 
-      icon: DollarSign, 
-      action: () => {
-        handleFilterChange('priceRange', [100000, 1000000]);
-        addActiveFilter('high-budget');
-      }
-    },
-    { 
-      id: 'new-groups', 
-      label: 'مجموعات جديدة', 
-      icon: Clock, 
-      action: () => {
-        handleFilterChange('sortBy', 'newest');
-        addActiveFilter('new-groups');
-      }
-    },
-    { 
-      id: 'verified-only', 
-      label: 'موثق فقط', 
-      icon: Shield, 
-      action: () => {
-        handleFilterChange('requiresKYC', true);
-        addActiveFilter('verified-only');
-      }
-    },
-    { 
-      id: 'premium-members', 
-      label: 'أعضاء مميزون', 
-      icon: Star, 
-      action: () => {
-        handleFilterChange('requiresPoints', true);
-        addActiveFilter('premium-members');
-      }
-    },
-    { 
-      id: 'mcp-certified', 
-      label: 'معتمد MCP', 
-      icon: Award, 
-      action: () => {
-        handleFilterChange('requiresMCP', true);
-        addActiveFilter('mcp-certified');
-      }
-    },
-    { 
-      id: 'large-groups', 
-      label: 'مجموعات كبيرة', 
-      icon: Users, 
-      action: () => {
-        handleFilterChange('memberRange', [50, 100]);
-        addActiveFilter('large-groups');
-      }
-    }
-  ];
-
-  const sortOptions = [
-    { value: 'relevance', label: 'الأكثر صلة' },
-    { value: 'newest', label: 'الأحدث' },
-    { value: 'oldest', label: 'الأقدم' },
-    { value: 'budget-high', label: 'الميزانية (عالي إلى منخفض)' },
-    { value: 'budget-low', label: 'الميزانية (منخفض إلى عالي)' },
-    { value: 'members-high', label: 'عدد الأعضاء (عالي إلى منخفض)' },
-    { value: 'members-low', label: 'عدد الأعضاء (منخفض إلى عالي)' },
-    { value: 'rating', label: 'التقييم' }
-  ];
+  const handleSearch = () => {
+    // Dummy search logic - في التطبيق الحقيقي سيتم ربطه بقاعدة البيانات
+    console.log('Searching with:', { searchQuery, filters });
+    alert(language === 'ar' ? 
+      `البحث عن: "${searchQuery}" مع الفلاتر المحددة` : 
+      `Searching for: "${searchQuery}" with selected filters`
+    );
+  };
 
   return (
-    <Card className="bg-white/90 backdrop-blur-sm shadow-2xl border-0">
-      <CardContent className="p-6">
-        {/* Main Search Bar */}
-        <div className="flex flex-col lg:flex-row gap-4 mb-6">
-          <div className="flex-1 relative">
-            <Search className="absolute right-4 top-4 h-6 w-6 text-muted-foreground" />
-            <Input
-              placeholder="ابحث في البوابات والمجموعات النشطة..."
-              className="pr-14 h-14 text-lg bg-white border-2 shadow-sm rounded-xl"
-              value={searchQuery}
-              onChange={(e) => setSearchQuery(e.target.value)}
-              dir="rtl"
-              onKeyPress={(e) => e.key === 'Enter' && handleSearch()}
-            />
+    <section className="py-16 bg-white dark:bg-slate-900">
+      <div className="container mx-auto px-4">
+        <div className="max-w-4xl mx-auto">
+          <div className="text-center mb-8">
+            <h2 className="text-3xl font-bold text-gray-900 dark:text-white mb-4">
+              {language === 'ar' ? 'البحث الذكي المتقدم' : 'Advanced Smart Search'}
+            </h2>
+            <p className="text-gray-600 dark:text-gray-300">
+              {language === 'ar' ? 
+                'ابحث عن المجموعات والفرص المناسبة لك باستخدام فلاتر متقدمة' : 
+                'Find the right groups and opportunities using advanced filters'
+              }
+            </p>
           </div>
-          
-          <div className="flex gap-3">
-            <Button
-              variant="outline"
-              size="lg"
-              className="h-14 px-6 rounded-xl"
-              onClick={() => setShowAdvanced(!showAdvanced)}
-            >
-              <SlidersHorizontal className="mr-2 h-5 w-5" />
-              فلترة متقدمة
-            </Button>
-            
-            <Button 
-              size="lg" 
-              className="h-14 px-8 rounded-xl"
-              onClick={handleSearch}
-            >
-              <Search className="mr-2 h-5 w-5" />
-              بحث
-            </Button>
-          </div>
-        </div>
 
-        {/* Quick Filters */}
-        <div className="mb-6">
-          <div className="flex items-center gap-2 mb-3">
-            <Filter className="h-4 w-4 text-muted-foreground" />
-            <span className="text-sm font-medium text-gray-700">فلاتر سريعة:</span>
-          </div>
-          <div className="flex flex-wrap gap-2">
-            {quickFilters.map(filter => (
-              <Button
-                key={filter.id}
-                variant={activeFilters.includes(filter.id) ? "default" : "outline"}
-                size="sm"
-                className="rounded-full"
-                onClick={filter.action}
-              >
-                <filter.icon className="mr-1 h-4 w-4" />
-                {filter.label}
-              </Button>
-            ))}
-          </div>
-        </div>
-
-        {/* Active Filters Display */}
-        {activeFilters.length > 0 && (
-          <div className="mb-6">
-            <div className="flex items-center gap-2 mb-3">
-              <span className="text-sm font-medium text-gray-700">الفلاتر النشطة:</span>
-              <Button
-                variant="ghost"
-                size="sm"
-                onClick={clearAllFilters}
-                className="text-red-600 hover:text-red-700"
-              >
-                مسح الكل
-              </Button>
-            </div>
-            <div className="flex flex-wrap gap-2">
-              {activeFilters.map(filter => (
-                <Badge
-                  key={filter}
-                  variant="secondary"
-                  className="flex items-center gap-1 px-3 py-1"
+          <Card className="border-0 shadow-xl bg-gradient-to-br from-white to-blue-50 dark:from-slate-800 dark:to-slate-700">
+            <CardContent className="p-6">
+              {/* Main Search Bar */}
+              <div className="flex gap-3 mb-6">
+                <div className="flex-1 relative">
+                  <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 w-5 h-5" />
+                  <Input
+                    placeholder={language === 'ar' ? 
+                      'ابحث عن المجموعات، المنتجات، الخدمات...' : 
+                      'Search for groups, products, services...'
+                    }
+                    value={searchQuery}
+                    onChange={(e) => setSearchQuery(e.target.value)}
+                    className="pl-10 h-12 text-lg border-2 border-gray-200 focus:border-blue-500"
+                  />
+                </div>
+                <Button
+                  onClick={() => setShowAdvancedFilters(!showAdvancedFilters)}
+                  variant="outline"
+                  className="h-12 px-6 border-2 border-gray-200 hover:border-blue-500"
                 >
-                  {quickFilters.find(f => f.id === filter)?.label}
-                  <X
-                    className="h-3 w-3 cursor-pointer hover:text-red-600"
-                    onClick={() => removeActiveFilter(filter)}
-                  />
-                </Badge>
-              ))}
-            </div>
-          </div>
-        )}
+                  <Filter className="w-5 h-5 mr-2" />
+                  {language === 'ar' ? 'فلترة متقدمة' : 'Advanced Filters'}
+                  <ChevronDown className={`w-4 h-4 ml-2 transition-transform ${showAdvancedFilters ? 'rotate-180' : ''}`} />
+                </Button>
+                <Button
+                  onClick={handleSearch}
+                  className="h-12 px-8 bg-gradient-to-r from-blue-500 to-purple-600 hover:from-blue-600 hover:to-purple-700"
+                >
+                  <Search className="w-5 h-5 mr-2" />
+                  {language === 'ar' ? 'بحث' : 'Search'}
+                </Button>
+              </div>
 
-        {/* Advanced Filters */}
-        {showAdvanced && (
-          <div className="border-t pt-6 space-y-6">
-            {/* Smart Dropdowns */}
-            <SmartDropdowns
-              onCountryChange={(country) => handleFilterChange('country', country)}
-              onPortalChange={(portal) => handleFilterChange('portal', portal)}
-              onGroupTypeChange={(groupType) => handleFilterChange('groupType', groupType)}
-              onServiceChange={(service) => handleFilterChange('service', service)}
-            />
+              {/* Advanced Filters */}
+              {showAdvancedFilters && (
+                <div className="border-t pt-6 space-y-4">
+                  <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+                    {/* Country Filter */}
+                    <div>
+                      <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
+                        <MapPin className="w-4 h-4 inline mr-1" />
+                        {language === 'ar' ? 'الدولة' : 'Country'}
+                      </label>
+                      <Select value={filters.country} onValueChange={(value) => handleFilterChange('country', value)}>
+                        <SelectTrigger>
+                          <SelectValue placeholder={language === 'ar' ? 'اختر الدولة' : 'Select Country'} />
+                        </SelectTrigger>
+                        <SelectContent>
+                          {countries.map((country) => (
+                            <SelectItem key={country.code} value={country.code}>
+                              <div className="flex items-center gap-2">
+                                <span>{country.flag}</span>
+                                <span>{language === 'ar' ? country.name : country.nameEn}</span>
+                                <Badge variant="secondary" className="text-xs">
+                                  {country.activeGroups}
+                                </Badge>
+                              </div>
+                            </SelectItem>
+                          ))}
+                        </SelectContent>
+                      </Select>
+                    </div>
 
-            {/* Price Range */}
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-              <div className="space-y-2">
-                <label className="text-sm font-medium text-gray-700 flex items-center gap-2">
-                  <DollarSign className="h-4 w-4" />
-                  نطاق الميزانية
-                </label>
-                <div className="flex gap-2">
-                  <Input
-                    type="number"
-                    placeholder="من"
-                    value={filters.priceRange[0]}
-                    onChange={(e) => handleFilterChange('priceRange', [parseInt(e.target.value) || 0, filters.priceRange[1]])}
-                    className="rounded-xl"
-                  />
-                  <Input
-                    type="number"
-                    placeholder="إلى"
-                    value={filters.priceRange[1]}
-                    onChange={(e) => handleFilterChange('priceRange', [filters.priceRange[0], parseInt(e.target.value) || 1000000])}
-                    className="rounded-xl"
-                  />
+                    {/* Portal Filter */}
+                    <div>
+                      <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
+                        {language === 'ar' ? 'البوابة' : 'Portal'}
+                      </label>
+                      <Select value={filters.portal} onValueChange={(value) => handleFilterChange('portal', value)}>
+                        <SelectTrigger>
+                          <SelectValue placeholder={language === 'ar' ? 'اختر البوابة' : 'Select Portal'} />
+                        </SelectTrigger>
+                        <SelectContent>
+                          {portals.map((portal) => (
+                            <SelectItem key={portal.value} value={portal.value}>
+                              {portal.label}
+                            </SelectItem>
+                          ))}
+                        </SelectContent>
+                      </Select>
+                    </div>
+
+                    {/* Group Type Filter */}
+                    <div>
+                      <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
+                        <Users className="w-4 h-4 inline mr-1" />
+                        {language === 'ar' ? 'نوع المجموعة' : 'Group Type'}
+                      </label>
+                      <Select value={filters.groupType} onValueChange={(value) => handleFilterChange('groupType', value)}>
+                        <SelectTrigger>
+                          <SelectValue placeholder={language === 'ar' ? 'اختر النوع' : 'Select Type'} />
+                        </SelectTrigger>
+                        <SelectContent>
+                          {groupTypes.map((type) => (
+                            <SelectItem key={type.value} value={type.value}>
+                              {type.label}
+                            </SelectItem>
+                          ))}
+                        </SelectContent>
+                      </Select>
+                    </div>
+
+                    {/* Budget Filter */}
+                    <div>
+                      <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
+                        <DollarSign className="w-4 h-4 inline mr-1" />
+                        {language === 'ar' ? 'الميزانية' : 'Budget'}
+                      </label>
+                      <Select value={filters.budget} onValueChange={(value) => handleFilterChange('budget', value)}>
+                        <SelectTrigger>
+                          <SelectValue placeholder={language === 'ar' ? 'اختر الميزانية' : 'Select Budget'} />
+                        </SelectTrigger>
+                        <SelectContent>
+                          {budgetRanges.map((range) => (
+                            <SelectItem key={range.value} value={range.value}>
+                              {range.label}
+                            </SelectItem>
+                          ))}
+                        </SelectContent>
+                      </Select>
+                    </div>
+
+                    {/* Member Count Filter */}
+                    <div>
+                      <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
+                        <Users className="w-4 h-4 inline mr-1" />
+                        {language === 'ar' ? 'عدد الأعضاء' : 'Member Count'}
+                      </label>
+                      <Select value={filters.memberCount} onValueChange={(value) => handleFilterChange('memberCount', value)}>
+                        <SelectTrigger>
+                          <SelectValue placeholder={language === 'ar' ? 'اختر العدد' : 'Select Count'} />
+                        </SelectTrigger>
+                        <SelectContent>
+                          {memberCounts.map((count) => (
+                            <SelectItem key={count.value} value={count.value}>
+                              {count.label}
+                            </SelectItem>
+                          ))}
+                        </SelectContent>
+                      </Select>
+                    </div>
+
+                    {/* Sort By Filter */}
+                    <div>
+                      <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
+                        <Calendar className="w-4 h-4 inline mr-1" />
+                        {language === 'ar' ? 'ترتيب حسب' : 'Sort By'}
+                      </label>
+                      <Select value={filters.sortBy} onValueChange={(value) => handleFilterChange('sortBy', value)}>
+                        <SelectTrigger>
+                          <SelectValue />
+                        </SelectTrigger>
+                        <SelectContent>
+                          {sortOptions.map((option) => (
+                            <SelectItem key={option.value} value={option.value}>
+                              {option.label}
+                            </SelectItem>
+                          ))}
+                        </SelectContent>
+                      </Select>
+                    </div>
+                  </div>
+
+                  {/* Active Filters */}
+                  {activeFilters.length > 0 && (
+                    <div className="flex flex-wrap gap-2 pt-4 border-t">
+                      <span className="text-sm font-medium text-gray-700 dark:text-gray-300 mr-2">
+                        {language === 'ar' ? 'الفلاتر النشطة:' : 'Active Filters:'}
+                      </span>
+                      {activeFilters.map((filterKey) => (
+                        <Badge key={filterKey} variant="secondary" className="flex items-center gap-1">
+                          {language === 'ar' ? 
+                            (filterKey === 'country' ? 'الدولة' :
+                             filterKey === 'portal' ? 'البوابة' :
+                             filterKey === 'groupType' ? 'نوع المجموعة' :
+                             filterKey === 'budget' ? 'الميزانية' :
+                             filterKey === 'memberCount' ? 'عدد الأعضاء' : 'ترتيب') :
+                            (filterKey === 'country' ? 'Country' :
+                             filterKey === 'portal' ? 'Portal' :
+                             filterKey === 'groupType' ? 'Group Type' :
+                             filterKey === 'budget' ? 'Budget' :
+                             filterKey === 'memberCount' ? 'Member Count' : 'Sort')
+                          }
+                          <X 
+                            className="w-3 h-3 cursor-pointer hover:text-red-500" 
+                            onClick={() => removeFilter(filterKey)}
+                          />
+                        </Badge>
+                      ))}
+                      <Button
+                        variant="ghost"
+                        size="sm"
+                        onClick={clearAllFilters}
+                        className="text-red-500 hover:text-red-700 hover:bg-red-50"
+                      >
+                        {language === 'ar' ? 'مسح الكل' : 'Clear All'}
+                      </Button>
+                    </div>
+                  )}
                 </div>
-              </div>
-
-              <div className="space-y-2">
-                <label className="text-sm font-medium text-gray-700 flex items-center gap-2">
-                  <Users className="h-4 w-4" />
-                  عدد الأعضاء
-                </label>
-                <div className="flex gap-2">
-                  <Input
-                    type="number"
-                    placeholder="من"
-                    value={filters.memberRange[0]}
-                    onChange={(e) => handleFilterChange('memberRange', [parseInt(e.target.value) || 1, filters.memberRange[1]])}
-                    className="rounded-xl"
-                  />
-                  <Input
-                    type="number"
-                    placeholder="إلى"
-                    value={filters.memberRange[1]}
-                    onChange={(e) => handleFilterChange('memberRange', [filters.memberRange[0], parseInt(e.target.value) || 100])}
-                    className="rounded-xl"
-                  />
-                </div>
-              </div>
-            </div>
-
-            {/* Requirements Checkboxes */}
-            <div className="space-y-2">
-              <label className="text-sm font-medium text-gray-700">المتطلبات:</label>
-              <div className="flex flex-wrap gap-4">
-                <label className="flex items-center gap-2 cursor-pointer">
-                  <input
-                    type="checkbox"
-                    checked={filters.requiresKYC}
-                    onChange={(e) => {
-                      handleFilterChange('requiresKYC', e.target.checked);
-                      if (e.target.checked) addActiveFilter('requiresKYC');
-                      else removeActiveFilter('requiresKYC');
-                    }}
-                    className="rounded"
-                  />
-                  <Shield className="h-4 w-4" />
-                  <span className="text-sm">KYC مطلوب</span>
-                </label>
-                
-                <label className="flex items-center gap-2 cursor-pointer">
-                  <input
-                    type="checkbox"
-                    checked={filters.requiresPoints}
-                    onChange={(e) => {
-                      handleFilterChange('requiresPoints', e.target.checked);
-                      if (e.target.checked) addActiveFilter('requiresPoints');
-                      else removeActiveFilter('requiresPoints');
-                    }}
-                    className="rounded"
-                  />
-                  <Star className="h-4 w-4" />
-                  <span className="text-sm">نقاط مطلوبة</span>
-                </label>
-                
-                <label className="flex items-center gap-2 cursor-pointer">
-                  <input
-                    type="checkbox"
-                    checked={filters.requiresMCP}
-                    onChange={(e) => {
-                      handleFilterChange('requiresMCP', e.target.checked);
-                      if (e.target.checked) addActiveFilter('requiresMCP');
-                      else removeActiveFilter('requiresMCP');
-                    }}
-                    className="rounded"
-                  />
-                  <Zap className="h-4 w-4" />
-                  <span className="text-sm">اختبار MCP</span>
-                </label>
-              </div>
-            </div>
-
-            {/* Sort Options */}
-            <div className="space-y-2">
-              <label className="text-sm font-medium text-gray-700">ترتيب النتائج:</label>
-              <select
-                value={filters.sortBy}
-                onChange={(e) => handleFilterChange('sortBy', e.target.value)}
-                className="w-full h-12 px-4 border-2 rounded-xl bg-white"
-              >
-                {sortOptions.map(option => (
-                  <option key={option.value} value={option.value}>
-                    {option.label}
-                  </option>
-                ))}
-              </select>
-            </div>
-          </div>
-        )}
-      </CardContent>
-    </Card>
+              )}
+            </CardContent>
+          </Card>
+        </div>
+      </div>
+    </section>
   );
 };
 

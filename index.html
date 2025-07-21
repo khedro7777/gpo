@@ -1,14 +1,13 @@
-
 <!DOCTYPE html>
 <html lang="en">
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>GPO MCP Intelligent Platform</title>
+    <title>GPODO - Future of the Business</title>
     <meta name="description" content="Unified GPO DAO Platform for governance, payments, and cooperative management" />
     <meta name="author" content="GPO Platform" />
 
-    <meta property="og:title" content="GPO MCP Intelligent Platform" />
+    <meta property="og:title" content="GPODO - Future of the Business" />
     <meta property="og:description" content="Unified GPO DAO Platform for governance, payments, and cooperative management" />
     <meta property="og:type" content="website" />
     <meta property="og:image" content="https://lovable.dev/opengraph-image-p98pqg.png" />
@@ -17,6 +16,17 @@
     <meta name="twitter:site" content="@lovable_dev" />
     <meta name="twitter:image" content="https://lovable.dev/opengraph-image-p98pqg.png" />
     
+    <!-- PWA Meta Tags -->
+    <link rel="manifest" href="/manifest.json">
+    <link rel="apple-touch-icon" href="/icons/icon-192x192.png">
+    <link rel="icon" href="/favicon.png">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black">
+    <meta name="apple-mobile-web-app-title" content="GPODO">
+    <meta name="msapplication-TileImage" content="/icons/icon-192x192.png">
+    <meta name="msapplication-TileColor" content="#0055a5">
+    <meta name="theme-color" content="#0055a5">
+
     <!-- Google Fonts: Inter for body text and Montserrat for headings -->
     <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Montserrat:wght@400;500;600;700&display=swap">
   </head>
@@ -26,5 +36,19 @@
     <!-- IMPORTANT: DO NOT REMOVE THIS SCRIPT TAG OR THIS VERY COMMENT! -->
     <script src="https://cdn.gpteng.co/gptengineer.js" type="module"></script>
     <script type="module" src="/src/main.tsx"></script>
+    <script>
+      if ("serviceWorker" in navigator) {
+        window.addEventListener("load", () => {
+          navigator.serviceWorker.register("/service-worker.js")
+            .then(registration => {
+              console.log("Service Worker registered: ", registration);
+            })
+            .catch(registrationError => {
+              console.log("Service Worker registration failed: ", registrationError);
+            });
+        });
+      }
+    </script>
   </body>
 </html>
+

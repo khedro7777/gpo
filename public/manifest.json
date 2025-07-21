@@ -1,25 +1,21 @@
-
 {
-  "name": "GPO Smart Cooperation Platform",
-  "short_name": "GPO",
-  "description": "AI-powered cooperative platform for buying, marketing, freelancing, and company incorporation",
+  "name": "GPODO - Future of the Business",
+  "short_name": "GPODO",
   "start_url": "/",
   "display": "standalone",
   "background_color": "#ffffff",
-  "theme_color": "#2F80ED",
+  "theme_color": "#0055a5",
   "icons": [
     {
-      "src": "/icons/icon-192.png",
-      "type": "image/png",
-      "sizes": "192x192"
+      "src": "/icons/icon-192x192.png",
+      "sizes": "192x192",
+      "type": "image/png"
     },
     {
-      "src": "/icons/icon-512.png",
-      "type": "image/png",
-      "sizes": "512x512"
+      "src": "/icons/icon-512x512.png",
+      "sizes": "512x512",
+      "type": "image/png"
     }
-  ],
-  "categories": ["business", "productivity", "finance"],
-  "lang": "en",
-  "dir": "auto"
+  ]
 }
+
