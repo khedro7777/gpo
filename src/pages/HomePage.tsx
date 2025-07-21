@@ -16,6 +16,7 @@ import {
 } from 'lucide-react';
 import { useAuth } from '@/hooks/use-auth';
 import { useToast } from '@/hooks/use-toast';
+import AdvancedSearch from '@/components/AdvancedSearch';
 
 const HomePage = () => {
   const { isAuthenticated } = useAuth();
@@ -400,47 +401,16 @@ const HomePage = () => {
         </div>
       </section>
 
-      {/* Search Section */}
+      {/* Advanced Search Section */}
       <section className="py-12">
         <div className="container mx-auto px-4">
-          <Card className="bg-white/80 backdrop-blur-sm shadow-2xl border-0">
-            <CardContent className="p-8">
-              <div className="flex flex-col lg:flex-row gap-6">
-                <div className="flex-1 relative">
-                  <Search className="absolute right-4 top-4 h-6 w-6 text-muted-foreground" />
-                  <Input
-                    placeholder="ابحث في البوابات والمجموعات النشطة..."
-                    className="pr-14 h-14 text-lg bg-white border-2 shadow-sm rounded-xl"
-                    value={searchQuery}
-                    onChange={(e) => setSearchQuery(e.target.value)}
-                    dir="rtl"
-                  />
-                </div>
-                
-                <div className="flex gap-4">
-                  <Select value={selectedPortal} onValueChange={setSelectedPortal}>
-                    <SelectTrigger className="w-48 h-14 bg-white border-2 rounded-xl">
-                      <Filter className="ml-2 h-5 w-5" />
-                      <SelectValue placeholder="اختر البوابة" />
-                    </SelectTrigger>
-                    <SelectContent>
-                      <SelectItem value="all">جميع البوابات</SelectItem>
-                      {mainPortals.map(portal => (
-                        <SelectItem key={portal.id} value={portal.id}>
-                          {portal.title}
-                        </SelectItem>
-                      ))}
-                    </SelectContent>
-                  </Select>
-
-                  <Button size="lg" className="h-14 px-8 rounded-xl">
-                    <Search className="mr-2 h-5 w-5" />
-                    بحث
-                  </Button>
-                </div>
-              </div>
-            </CardContent>
-          </Card>
+          <AdvancedSearch onSearch={(filters) => {
+            console.log('Search filters:', filters);
+            toast({
+              title: "تم تطبيق الفلاتر",
+              description: `تم البحث باستخدام ${Object.keys(filters).filter(key => filters[key as keyof typeof filters]).length} فلتر`,
+            });
+          }} />
         </div>
       </section>
 

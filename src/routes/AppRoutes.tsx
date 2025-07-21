@@ -95,6 +95,11 @@ const AppRoutes = () => {
             <GroupDetails />
           </ProtectedRoute>
         } />
+        <Route path="/groups/:groupId/room" element={
+          <ProtectedRoute>
+            {React.createElement(React.lazy(() => import('@/pages/groups/GroupRoomPage')))}
+          </ProtectedRoute>
+        } />
         <Route path="/create-group" element={
           <ProtectedRoute>
             <CreateGroup />
